@@ -4,6 +4,33 @@ final class MovieQuizViewController: UIViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let currentQuestion = questions[currentQuestionIndex]
+        
+        let convertToViewModel = convert(model: QuizQuestion(
+            image: currentQuestion.image,
+            text: currentQuestion.text,
+            correctAnswer: currentQuestion.correctAnswer))
+        
+        show(quiz: QuizStepViewModel(
+            image: convertToViewModel.image,
+            question: convertToViewModel.question,
+            questionNumber: convertToViewModel.questionNumber))
+    }
+    
+    private var currentQuestionIndex = 0
+    private var correctAnswers = 0
+    
+    private struct QuizStepViewModel {
+        let image: UIImage
+        let question: String
+        let questionNumber: String
+    }
+
+    private struct QuizResultsViewModel {
+        let title: String
+        let text: String
+        let buttonText: String
     }
     
     private struct QuizQuestion {
@@ -11,7 +38,7 @@ final class MovieQuizViewController: UIViewController {
         let text: String
         let correctAnswer: Bool
     }
-
+    
     private let questions: [QuizQuestion] = [
         QuizQuestion(
             image: "The Godfather",
@@ -55,11 +82,23 @@ final class MovieQuizViewController: UIViewController {
             correctAnswer: false)
     ]
     
-    
-    
     @IBOutlet private var imageView: UIImageView!
     @IBOutlet private var textLabel: UILabel!
     @IBOutlet private var counterLabel: UILabel!
+    
+    private func convert(model: QuizQuestion) -> QuizStepViewModel {
+       let questionStep = QuizStepViewModel(
+            image: UIImage(named: model.image) ?? UIImage(),
+            question: model.text,
+            questionNumber: "\(currentQuestionIndex + 1)/\(questions.count)")
+        return questionStep
+    }
+    
+    private func show(quiz step: QuizStepViewModel) {
+        imageView.image = step.image
+        textLabel.text = step.question
+        counterLabel.text = step.questionNumber
+    }
     
     @IBAction private func yesButtonClicked(_ sender: UIButton) {
     }
@@ -68,7 +107,6 @@ final class MovieQuizViewController: UIViewController {
     }
     
 }
-
 
 
 
