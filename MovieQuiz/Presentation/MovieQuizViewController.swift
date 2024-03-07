@@ -7,15 +7,18 @@ final class MovieQuizViewController: UIViewController {
         
         let currentQuestion = questions[currentQuestionIndex]
         
-        let convertToViewModel = convert(model: QuizQuestion(
-            image: currentQuestion.image,
-            text: currentQuestion.text,
-            correctAnswer: currentQuestion.correctAnswer))
+//        let convertToViewModel = convert(model: QuizQuestion(
+//            image: currentQuestion.image,
+//            text: currentQuestion.text,
+//            correctAnswer: currentQuestion.correctAnswer))
+//        
+//        show(quiz: QuizStepViewModel(
+//            image: convertToViewModel.image,
+//            question: convertToViewModel.question,
+//            questionNumber: convertToViewModel.questionNumber))
         
-        show(quiz: QuizStepViewModel(
-            image: convertToViewModel.image,
-            question: convertToViewModel.question,
-            questionNumber: convertToViewModel.questionNumber))
+        let viewModel = convert(model: currentQuestion)
+        show(quiz: viewModel)
     }
     
     private var currentQuestionIndex = 0
@@ -100,15 +103,45 @@ final class MovieQuizViewController: UIViewController {
         counterLabel.text = step.questionNumber
     }
     
+    private func showAnswerResult(isCorrect: Bool) {
+        imageView.layer.masksToBounds = true
+        imageView.layer.borderWidth = 8
+        imageView.layer.borderColor = isCorrect ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.showNextQuestionOrResults()
+        }
+    }
+    
+    private func showNextQuestionOrResults() {
+        if currentQuestionIndex == questions.count - 1 {
+            
+        } else {
+            currentQuestionIndex += 1
+            
+            let nextQuestion = questions[currentQuestionIndex]
+            let viewModel = convert(model: nextQuestion)
+            
+            show(quiz: viewModel)
+        }
+    }
+    
+    
     @IBAction private func yesButtonClicked(_ sender: UIButton) {
+        let currentQuestion = questions[currentQuestionIndex]
+        let givenAnswer = true
+        
+        showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
     }
     
     @IBAction private func noButtonClicked(_ sender: UIButton) {
+        let currentQuestion = questions[currentQuestionIndex]
+        let givenAnswer = false
+        
+        showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
     }
     
 }
-
-
 
 /*
  Mock-данные
