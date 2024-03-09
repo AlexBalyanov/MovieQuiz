@@ -52,12 +52,28 @@
                                             <constraint firstAttribute="width" secondItem="Gha-A7-OAj" secondAttribute="height" multiplier="2:3" id="fz2-cP-JUl"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Рейтинг этого фильма больше, чем X?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ixm-1I-IfC" userLabel="Question Label">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CXO-tv-J3F">
                                         <rect key="frame" x="0.0" y="624.5" width="374" height="99.5"/>
-                                        <fontDescription key="fontDescription" name="YSDisplay-Bold" family="YS Display" pointSize="23"/>
-                                        <color key="textColor" name="YP White"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xw9-Yi-gs0">
+                                                <rect key="frame" x="42" y="0.0" width="290" height="99.5"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Рейтинг этого фильма больше, чем X?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ixm-1I-IfC" userLabel="Question Label">
+                                                        <rect key="frame" x="0.0" y="0.0" width="290" height="99.5"/>
+                                                        <fontDescription key="fontDescription" name="YSDisplay-Bold" family="YS Display" pointSize="23"/>
+                                                        <color key="textColor" name="YP White"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="Xw9-Yi-gs0" secondAttribute="bottom" id="FWc-ZQ-hus"/>
+                                            <constraint firstItem="Xw9-Yi-gs0" firstAttribute="top" secondItem="CXO-tv-J3F" secondAttribute="top" id="h9Y-Uc-kZP"/>
+                                            <constraint firstAttribute="trailing" secondItem="Xw9-Yi-gs0" secondAttribute="trailing" constant="42" id="qre-Xw-mKt"/>
+                                            <constraint firstItem="Xw9-Yi-gs0" firstAttribute="leading" secondItem="CXO-tv-J3F" secondAttribute="leading" constant="42" id="tjW-Ce-VP1"/>
+                                        </constraints>
+                                    </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="WCD-ko-rGq">
                                         <rect key="frame" x="0.0" y="744" width="374" height="60"/>
                                         <subviews>
@@ -101,6 +117,9 @@
                                         </constraints>
                                     </stackView>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="CXO-tv-J3F" firstAttribute="top" secondItem="Gha-A7-OAj" secondAttribute="bottom" constant="20" id="Jj7-Oj-rjX"/>
+                                </constraints>
                             </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
