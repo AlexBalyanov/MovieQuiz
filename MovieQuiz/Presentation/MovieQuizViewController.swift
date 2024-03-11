@@ -13,6 +13,9 @@ final class MovieQuizViewController: UIViewController {
         setupImageView()
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
     private var currentQuestionIndex = 0
     private var correctAnswers = 0
     
