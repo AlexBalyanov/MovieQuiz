@@ -17,10 +17,11 @@ final class MovieQuizViewController: UIViewController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
+    
     private var currentQuestionIndex = 0
     private var correctAnswers = 0
     private let questionAmount = 10
-    private var questionFactory: QuestionFactory = QuestionFactory()
+    private var questionFactory: QuestionFactoryProtocol = QuestionFactory()
     private var currentQuestion: QuizQuestion?
     
     @IBOutlet private var imageView: UIImageView!
