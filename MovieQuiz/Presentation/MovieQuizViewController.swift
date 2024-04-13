@@ -8,6 +8,8 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         
         alertPresenter = AlertPresenter(delegate: self)
         
+        statisticService = StatisticServiceImplementation()
+        
         let questionFactory = QuestionFactory()
         questionFactory.delegate = self
         self.questionFactory = questionFactory
@@ -15,6 +17,8 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         questionFactory.requestNextQuestion()
         
         setupImageView()
+        
+        
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -27,7 +31,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     private var questionFactory: QuestionFactoryProtocol?
     private var currentQuestion: QuizQuestion?
     private var alertPresenter: AlertPresenterDelegate?
-    private let statisticService = StatisticServiceImplementation()
+    private var statisticService: StatisticService?
 
     @IBOutlet private var imageView: UIImageView!
     @IBOutlet private var textLabel: UILabel!
@@ -71,7 +75,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         
         if isCorrect == true {
             correctAnswers += 1
-            statisticService.totalCorrectQuestions += 1
+            statisticService?.totalCorrectQuestions += 1
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
@@ -87,6 +91,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         noButtonState.isEnabled = true
         
         if currentQuestionIndex == questionAmount - 1 {
+            guard var statisticService = statisticService else { return }
             statisticService.gamesCount += 1
             statisticService.store(correct: correctAnswers, total: questionAmount)
             let viewModel = AlertModel(
