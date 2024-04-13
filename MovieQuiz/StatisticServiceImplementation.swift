@@ -4,9 +4,30 @@ final class StatisticServiceImplementation: StatisticService {
     
     private let userDefaults = UserDefaults.standard
     
-    var totalAccuracy: Double
+    var totalCorrectQuestions: Int {
+        get {
+            userDefaults.integer(forKey: Keys.correctTotal.rawValue)
+        }
+        set {
+            userDefaults.set(newValue, forKey: Keys.correctTotal.rawValue)
+        }
+    }
     
-    var gamesCount: Int
+    var totalAccuracy: Double {
+        let totalGames = gamesCount * 10
+        let totalCorrectQuestions = totalCorrectQuestions
+        
+        return Double(totalCorrectQuestions) / Double(totalGames) * 100
+    }
+    
+    var gamesCount: Int {
+        get {
+            return userDefaults.integer(forKey: Keys.gamesCount.rawValue)
+        }
+        set {
+            userDefaults.set(newValue, forKey: Keys.gamesCount.rawValue)
+        }
+    }
     
     var bestGame: GameRecord {
         get {
@@ -22,17 +43,22 @@ final class StatisticServiceImplementation: StatisticService {
                 print ("Невозможно сохранить результат.")
                 return
             }
-            userDefaults.setValue(data, forKey: Keys.bestGame.rawValue)
+                userDefaults.set(data, forKey: Keys.bestGame.rawValue)
+            }
         }
-    }
     
     private enum Keys: String {
-        case correct, total, bestGame, gamesCount
+        case correct, total, bestGame, gamesCount, correctTotal
     }
+    
     
     func store(correct count: Int, total amount: Int) {
-        <#code#>
+        userDefaults.set(count, forKey: Keys.correct.rawValue)
+        userDefaults.set(amount, forKey: Keys.total.rawValue)
+        
+        let newRecord = GameRecord(correct: count, total: amount, date: Date())
+        if newRecord.isBetterThan(bestGame) {
+            bestGame = newRecord
+        }
     }
-    
-    
 }
