@@ -1,7 +1,7 @@
 import UIKit
 
 
-class AlertPresenter: AlertPresenterDelegate {
+final class AlertPresenter: AlertPresenterDelegate {
     
     weak var delegate: UIViewController?
     
