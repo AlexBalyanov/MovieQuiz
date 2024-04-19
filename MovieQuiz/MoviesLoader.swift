@@ -8,7 +8,7 @@ struct MoviesLoader: MoviesLoading {
     private let networkClient = NetworkClient()
     
     private var mostPopularMoviesUrl: URL {
-        guard let url = URL(string: "https://tv-api.com/en/API/Top250Movies/k_kiwxbi4y") else { preconditionFailure("Unable to construct mostPopularMoviesUrl")
+        guard let url = URL(string: "https://tv-api.com/en/API/Top250Movies/k_zcuw1ytf") else { preconditionFailure("Unable to construct mostPopularMoviesUrl")
         }
         return url
     }
@@ -28,6 +28,4 @@ struct MoviesLoader: MoviesLoading {
             }
         }
     }
-    
-    
 }
