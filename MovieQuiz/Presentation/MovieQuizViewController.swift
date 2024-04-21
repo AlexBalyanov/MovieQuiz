@@ -55,7 +55,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
                 
                 self.currentQuestionIndex = 0
                 self.correctAnswers = 0
-                
+                self.questionFactory?.loadData()
                 self.questionFactory?.requestNextQuestion()
             }
         alertPresenter?.showAlert(quiz: viewModel)
@@ -70,6 +70,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         DispatchQueue.main.async { [weak self] in
             self?.show(quiz: viewModel)
         }
+        activityIndicator.isHidden = true
     }
     
     func didLoadDataFromServer() {
@@ -155,6 +156,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         
         yesButtonState.isEnabled = false
         noButtonState.isEnabled = false
+        showLoadingIndicator()
     }
     
     @IBAction private func noButtonClicked(_ sender: UIButton) {
@@ -165,5 +167,6 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         
         yesButtonState.isEnabled = false
         noButtonState.isEnabled = false
+        showLoadingIndicator()
     }
 }
