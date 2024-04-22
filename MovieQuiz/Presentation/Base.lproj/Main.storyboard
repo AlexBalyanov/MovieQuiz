@@ -121,17 +121,23 @@
                                     <constraint firstItem="CXO-tv-J3F" firstAttribute="top" secondItem="Gha-A7-OAj" secondAttribute="bottom" constant="20" id="Jj7-Oj-rjX"/>
                                 </constraints>
                             </stackView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="zJL-1d-7uG">
+                                <rect key="frame" x="186.66666666666666" y="416" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="YP Black"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="g6S-MI-U4u" secondAttribute="bottom" id="7lx-F7-dNR"/>
+                            <constraint firstItem="zJL-1d-7uG" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="SfW-de-VUV"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="g6S-MI-U4u" secondAttribute="trailing" constant="20" id="ao4-zV-Edv"/>
                             <constraint firstItem="g6S-MI-U4u" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="pkj-F1-EYc"/>
                             <constraint firstItem="g6S-MI-U4u" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="xQD-iI-wu1"/>
+                            <constraint firstItem="zJL-1d-7uG" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="zLw-1B-zdF"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="zJL-1d-7uG" id="nRL-wZ-Kvo"/>
                         <outlet property="counterLabel" destination="5OL-KB-nOb" id="wbN-sx-iFN"/>
                         <outlet property="imageView" destination="Gha-A7-OAj" id="Ybu-d3-iLH"/>
                         <outlet property="noButtonState" destination="GUZ-fj-ZFO" id="kVz-Vd-rd4"/>

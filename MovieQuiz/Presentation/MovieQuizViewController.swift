@@ -10,14 +10,13 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         
         statisticService = StatisticServiceImplementation()
         
-        let questionFactory = QuestionFactory()
-        questionFactory.delegate = self
+        let questionFactory = QuestionFactory(moviesLoader: MoviesLoader(), delegate: self)
         self.questionFactory = questionFactory
         
-        questionFactory.requestNextQuestion()
+        showLoadingIndicator()
+        questionFactory.loadData()
         
         setupImageView()
-        
         
     }
 
@@ -38,6 +37,28 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     @IBOutlet private var counterLabel: UILabel!
     @IBOutlet private var yesButtonState: UIButton!
     @IBOutlet private var noButtonState: UIButton!
+    @IBOutlet private var activityIndicator: UIActivityIndicatorView!
+    
+    private func showLoadingIndicator() {
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
+    }
+    
+    private func showNetworkError(message: String) {
+        DispatchQueue.main.async {
+            self.activityIndicator.isHidden = true
+
+            let viewModel = AlertModel(
+                title: "Ошибка",
+                message: message,
+                buttonText: "Попробовать еще раз") { [weak self] in
+                    guard let self = self else { return }
+                    self.questionFactory?.loadData()
+                    self.questionFactory?.requestNextQuestion()
+                }
+            self.alertPresenter?.showAlert(quiz: viewModel)
+        }
+    }
     
     // MARK: - Delegate
     func didReceiveNextQuestion(question: QuizQuestion?) {
@@ -48,6 +69,20 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         DispatchQueue.main.async { [weak self] in
             self?.show(quiz: viewModel)
         }
+        activityIndicator.isHidden = true
+    }
+    
+    func didLoadDataFromServer() {
+        activityIndicator.isHidden = true
+        questionFactory?.requestNextQuestion()
+    }
+    
+    func didFailToLoadData(with error: Error) {
+        showNetworkError(message: error.localizedDescription)
+    }
+    
+    func didFailToLoadImage(with error: Error) {
+        showNetworkError(message: error.localizedDescription)
     }
     
     private func setupImageView() {
@@ -56,7 +91,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
        let questionStep = QuizStepViewModel(
-            image: UIImage(named: model.image) ?? UIImage(),
+            image: UIImage(data: model.image) ?? UIImage(),
             question: model.text,
             questionNumber: "\(currentQuestionIndex + 1)/\(questionAmount)")
         return questionStep
@@ -124,6 +159,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         
         yesButtonState.isEnabled = false
         noButtonState.isEnabled = false
+        showLoadingIndicator()
     }
     
     @IBAction private func noButtonClicked(_ sender: UIButton) {
@@ -134,5 +170,6 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         
         yesButtonState.isEnabled = false
         noButtonState.isEnabled = false
+        showLoadingIndicator()
     }
 }
