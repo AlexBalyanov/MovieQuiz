@@ -45,20 +45,19 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     }
     
     private func showNetworkError(message: String) {
-        activityIndicator.isHidden = true
-        
-        let viewModel = AlertModel(
-            title: "Ошибка", 
-            message: message,
-            buttonText: "Попробовать еще раз") { [weak self] in
-                guard let self = self else { return }
-                
-                self.currentQuestionIndex = 0
-                self.correctAnswers = 0
-                self.questionFactory?.loadData()
-                self.questionFactory?.requestNextQuestion()
-            }
-        alertPresenter?.showAlert(quiz: viewModel)
+        DispatchQueue.main.async {
+            self.activityIndicator.isHidden = true
+
+            let viewModel = AlertModel(
+                title: "Ошибка",
+                message: message,
+                buttonText: "Попробовать еще раз") { [weak self] in
+                    guard let self = self else { return }
+                    self.questionFactory?.loadData()
+                    self.questionFactory?.requestNextQuestion()
+                }
+            self.alertPresenter?.showAlert(quiz: viewModel)
+        }
     }
     
     // MARK: - Delegate
@@ -79,6 +78,10 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     }
     
     func didFailToLoadData(with error: Error) {
+        showNetworkError(message: error.localizedDescription)
+    }
+    
+    func didFailToLoadImage(with error: Error) {
         showNetworkError(message: error.localizedDescription)
     }
     

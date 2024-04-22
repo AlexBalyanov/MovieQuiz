@@ -39,6 +39,7 @@ final class QuestionFactory: QuestionFactoryProtocol {
                 imageData = try Data(contentsOf: movie.resizedImageUrl)
             } catch {
                 print("Fail to load image")
+                self.delegate?.didFailToLoadData(with: error)
             }
             
             let rating = Float(movie.rating) ?? 0
