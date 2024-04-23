@@ -24,13 +24,14 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         return .lightContent
     }
     
-    private var currentQuestionIndex = 0
+//    private var currentQuestionIndex = 0
     private var correctAnswers = 0
-    private let questionAmount = 10
+//    private let questionAmount = 10
     private var questionFactory: QuestionFactoryProtocol?
     private var currentQuestion: QuizQuestion?
     private var alertPresenter: AlertPresenterDelegate?
     private var statisticService: StatisticService?
+    private let presenter = MovieQuizPresenter()
 
     @IBOutlet private var imageView: UIImageView!
     @IBOutlet private var textLabel: UILabel!
@@ -66,7 +67,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         guard let question = question else { return }
 
         currentQuestion = question
-        let viewModel = convert(model: question)
+        let viewModel = presenter.convert(model: question)
         DispatchQueue.main.async { [weak self] in
             self?.show(quiz: viewModel)
         }
@@ -90,13 +91,13 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         imageView.layer.cornerRadius = 20
     }
     
-    private func convert(model: QuizQuestion) -> QuizStepViewModel {
-       let questionStep = QuizStepViewModel(
-            image: UIImage(data: model.image) ?? UIImage(),
-            question: model.text,
-            questionNumber: "\(currentQuestionIndex + 1)/\(questionAmount)")
-        return questionStep
-    }
+//    private func convert(model: QuizQuestion) -> QuizStepViewModel {
+//       let questionStep = QuizStepViewModel(
+//            image: UIImage(data: model.image) ?? UIImage(),
+//            question: model.text,
+//            questionNumber: "\(currentQuestionIndex + 1)/\(questionAmount)")
+//        return questionStep
+//    }
     
     private func show(quiz step: QuizStepViewModel) {
         imageView.image = step.image
@@ -126,28 +127,28 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         yesButtonState.isEnabled = true
         noButtonState.isEnabled = true
         
-        if currentQuestionIndex == questionAmount - 1 {
+        if presenter.isLastQuestion() {
             guard var statisticService = statisticService else { return }
             statisticService.gamesCount += 1
-            statisticService.store(correct: correctAnswers, total: questionAmount)
+            statisticService.store(correct: correctAnswers, total: presenter.questionAmount)
             let viewModel = AlertModel(
                 ID: "FinishingAlert",
                 title: "Этот раунд окончен!",
                 message: """
-                Ваш результат: \(correctAnswers)/\(questionAmount)
+                Ваш результат: \(correctAnswers)/\(presenter.questionAmount)
                 Количество сыграных квизов: \(statisticService.gamesCount)
                 Рекорд: \(statisticService.bestGame.correct)/\(statisticService.bestGame.total) (\(statisticService.bestGame.date.dateTimeString))
                 Средняя точность: \(String(format: "%.2f", statisticService.totalAccuracy))%
                 """,
                 buttonText: "Сыграть еще раз") { [weak self] in
                     guard let self = self else { return }
-                    self.currentQuestionIndex = 0
+                    self.presenter.resetQuestionIndex()
                     self.correctAnswers = 0
                     questionFactory?.requestNextQuestion()
                 }
             alertPresenter?.showAlert(quiz: viewModel)
         } else {
-            currentQuestionIndex += 1
+            presenter.switchToNextQuestion()
             
             questionFactory?.requestNextQuestion()
         }
