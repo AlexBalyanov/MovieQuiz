@@ -49,6 +49,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
             self.activityIndicator.isHidden = true
 
             let viewModel = AlertModel(
+                ID: "ErrorAlert",
                 title: "Ошибка",
                 message: message,
                 buttonText: "Попробовать еще раз") { [weak self] in
@@ -130,6 +131,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
             statisticService.gamesCount += 1
             statisticService.store(correct: correctAnswers, total: questionAmount)
             let viewModel = AlertModel(
+                ID: "FinishingAlert",
                 title: "Этот раунд окончен!",
                 message: """
                 Ваш результат: \(correctAnswers)/\(questionAmount)
