@@ -1,6 +1,6 @@
 import UIKit
 
-final class MovieQuizViewController: UIViewController {
+final class MovieQuizViewController: UIViewController, MovieQuizViewControllerProtocol {
     
     @IBOutlet private var imageView: UIImageView!
     @IBOutlet private var textLabel: UILabel!
@@ -23,6 +23,10 @@ final class MovieQuizViewController: UIViewController {
 
         imageView.layer.cornerRadius = 20
     }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+            return .lightContent
+        }
 
     func show(quiz step: QuizStepViewModel) {
         imageView.layer.borderColor = UIColor.clear.cgColor
@@ -32,7 +36,6 @@ final class MovieQuizViewController: UIViewController {
         
         yesButtonState.isEnabled = true
         noButtonState.isEnabled = true
-        hideLoadingIndicator()
     }
 
     func show(quiz result: QuizResultsViewModel) {
@@ -60,20 +63,22 @@ final class MovieQuizViewController: UIViewController {
     }
 
     func hideLoadingIndicator() {
-        activityIndicator.isHidden = true
+            self.activityIndicator.isHidden = true
     }
 
     func showNetworkError(message: String) {
-        hideLoadingIndicator()
-
-        let viewModel = AlertModel(ID: "ErrorAlert",
-                                   title: "Ошибка", 
-                                   message: message,
-                                   buttonText: "Попробовать еще раз") { [weak self] in
-            guard let self = self else { return }
-            self.presenter.restartGame()
+        DispatchQueue.main.async {
+            
+            let viewModel = AlertModel(ID: "ErrorAlert",
+                                       title: "Ошибка",
+                                       message: message,
+                                       buttonText: "Попробовать еще раз") { [weak self] in
+                guard let self = self else { return }
+                presenter.questionFactory?.loadData()
+                self.presenter.restartGame()
+            }
+            self.alertPresenter?.showAlert(quiz: viewModel)
         }
-        alertPresenter?.showAlert(quiz: viewModel)
     }
     
     @IBAction private func yesButtonClicked(_ sender: UIButton) {
