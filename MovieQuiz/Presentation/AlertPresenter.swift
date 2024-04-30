@@ -10,6 +10,7 @@ final class AlertPresenter: AlertPresenterDelegate {
             title: result.title,
             message: result.message,
             preferredStyle: .alert)
+        alert.view.accessibilityIdentifier = result.ID
         
         let action = UIAlertAction(title: result.buttonText, style: .default) { _ in
             result.completion()

@@ -39,6 +39,7 @@
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="X/10" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5OL-KB-nOb" userLabel="Index Label">
                                                 <rect key="frame" x="312.33333333333331" y="0.0" width="40.666666666666686" height="23.666666666666668"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="Index"/>
                                                 <fontDescription key="fontDescription" name="YSDisplay-Medium" family="YS Display" pointSize="20"/>
                                                 <color key="textColor" name="YP White"/>
                                                 <nil key="highlightedColor"/>
@@ -48,6 +49,7 @@
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Gha-A7-OAj" userLabel="Preview Image">
                                         <rect key="frame" x="0.0" y="43.666666666666686" width="353" height="529.66666666666652"/>
                                         <color key="backgroundColor" name="YP White"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="Poster"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Gha-A7-OAj" secondAttribute="height" multiplier="2:3" id="fz2-cP-JUl"/>
                                         </constraints>
@@ -80,6 +82,7 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GUZ-fj-ZFO" userLabel="No Button">
                                                 <rect key="frame" x="0.0" y="0.0" width="166.66666666666666" height="60"/>
                                                 <color key="backgroundColor" name="YP White"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="No"/>
                                                 <fontDescription key="fontDescription" name="YSDisplay-Medium" family="YS Display" pointSize="20"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal" title="Нет">
@@ -97,6 +100,7 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xm3-n4-xHq" userLabel="Yes Button">
                                                 <rect key="frame" x="186.66666666666663" y="0.0" width="166.33333333333337" height="60"/>
                                                 <color key="backgroundColor" name="YP White"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="Yes"/>
                                                 <fontDescription key="fontDescription" name="YSDisplay-Medium" family="YS Display" pointSize="20"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal" title="Да">
@@ -140,9 +144,9 @@
                         <outlet property="activityIndicator" destination="zJL-1d-7uG" id="nRL-wZ-Kvo"/>
                         <outlet property="counterLabel" destination="5OL-KB-nOb" id="wbN-sx-iFN"/>
                         <outlet property="imageView" destination="Gha-A7-OAj" id="Ybu-d3-iLH"/>
-                        <outlet property="noButtonState" destination="GUZ-fj-ZFO" id="kVz-Vd-rd4"/>
+                        <outlet property="noButtonState" destination="GUZ-fj-ZFO" id="pSx-U8-Tvo"/>
                         <outlet property="textLabel" destination="ixm-1I-IfC" id="imR-QK-Tml"/>
-                        <outlet property="yesButtonState" destination="Xm3-n4-xHq" id="EUf-TB-Gqy"/>
+                        <outlet property="yesButtonState" destination="Xm3-n4-xHq" id="ayd-iB-szG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
