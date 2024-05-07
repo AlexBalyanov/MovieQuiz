@@ -43,9 +43,14 @@ final class QuestionFactory: QuestionFactoryProtocol {
             }
             
             let rating = Float(movie.rating) ?? 0
+            let randomQuestionRaiting = Float.random(in: 7...9)
+            let randomBool = Bool.random()
+            let operators = [">", "<"]
+            let randomOperators = operators.randomElement()
             
-            let text = "Рейтинг этого фильма больше, чем 7?"
-            let correctAnswer = rating > 7
+            let text = randomOperators == ">" ? "Рейтинг этого фильма больше, чем \(String(format: "%.1f", randomQuestionRaiting))?" : "Рейтинг этого фильма меньше, чем \(String(format: "%.1f", randomQuestionRaiting))?"
+            
+            let correctAnswer = randomOperators == ">" ? (rating > randomQuestionRaiting) : (rating < randomQuestionRaiting)
             
             let question = QuizQuestion(image: imageData,
                                         text: text,
